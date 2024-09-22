@@ -4,7 +4,7 @@ using WebWind.Core;
 namespace Example.Source;
 
 [Route("/")]
-public class MyView : Div
+public class MyView : VStack
 {
     private Int32 m_ClickCounter = 0;
     

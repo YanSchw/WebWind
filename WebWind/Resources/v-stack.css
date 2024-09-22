@@ -1,0 +1,6 @@
+
+v-stack {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+}
