@@ -45,25 +45,29 @@ public static class ViewCache
 
     private static void SubmitCss()
     {
-        Assembly assembly = Assembly.GetExecutingAssembly();
+        // Get all loaded assemblies
+        Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-        string[] resourceNames = assembly.GetManifestResourceNames();
-
-        foreach (string resourceName in resourceNames)
+        foreach (Assembly assembly in assemblies)
         {
-            // Check if the resource is a CSS file
-            if (resourceName.EndsWith(".css", StringComparison.OrdinalIgnoreCase))
-            {
-                // Read the CSS content as a string
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    string cssContent = reader.ReadToEnd();
+            string[] resourceNames = assembly.GetManifestResourceNames();
 
-                    // Send the CSS content to the Frontend
-                    ClientInterface.Current.JS.Eval($"{{const styleElement = document.createElement('style');" +
-                                                    $"styleElement.textContent = `{cssContent}`;" +
-                                                    $"document.head.appendChild(styleElement);}}");
+            foreach (string resourceName in resourceNames)
+            {
+                // Check if the resource is a CSS file
+                if (resourceName.EndsWith(".css", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Read the CSS content as a string
+                    using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        string cssContent = reader.ReadToEnd();
+
+                        // Send the CSS content to the frontend
+                        ClientInterface.Current.JS.Eval($"{{const styleElement = document.createElement('style');" +
+                                                        $"styleElement.textContent = `{cssContent}`;" +
+                                                        $"document.head.appendChild(styleElement);}}");
+                    }
                 }
             }
         }
