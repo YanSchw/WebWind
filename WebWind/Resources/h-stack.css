@@ -1,5 +1,5 @@
 
-h-stack {
+h-stack.default-style {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;

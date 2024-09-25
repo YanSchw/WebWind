@@ -9,6 +9,7 @@ public abstract class TextElement : Component
     protected TextElement(string textString)
     {
         JS.CreateDocumentElement(GetTextElementTag(), Id);
+        AddClassName("default-style");
         Text = textString;
     }
     

@@ -40,6 +40,7 @@ public class TextInput : Component
                 action(textInputChangeEvent);
             }
         });
+        AddClassName("default-style");
     }
 
     public void AddOnInputChangeEvent(Action<TextInputChangeEvent> callback)

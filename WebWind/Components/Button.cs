@@ -17,6 +17,7 @@ public class Button : Component
             }
         });
         CreateChild<Paragraph>(text);
+        AddClassName("default-style");
     }
 
     public void AddOnClickedEvent(Action callback)

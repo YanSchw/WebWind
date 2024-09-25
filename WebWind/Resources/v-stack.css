@@ -1,5 +1,5 @@
 
-v-stack {
+v-stack.default-style {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;

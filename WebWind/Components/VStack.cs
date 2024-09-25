@@ -8,6 +8,7 @@ public class VStack : Component
     public VStack()
     {
         JS.CreateDocumentElement("v-stack", Id);
+        AddClassName("default-style");
     }
 
 }

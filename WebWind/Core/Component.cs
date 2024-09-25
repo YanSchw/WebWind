@@ -76,4 +76,13 @@ public abstract class Component
         m_RegisteredEvents[eventName] = callback;
     }
 
+    public void AddClassName(string className)
+    {
+        JS.Eval($"{Id}.classList.add(`{className}`);");
+    }
+    public void RemoveClassName(string className)
+    {
+        JS.Eval($"{Id}.classList.remove(`{className}`);");
+    }
+
 }

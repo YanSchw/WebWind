@@ -8,6 +8,7 @@ public class HStack : Component
     public HStack()
     {
         JS.CreateDocumentElement("h-stack", Id);
+        AddClassName("default-style");
     }
 
 }
