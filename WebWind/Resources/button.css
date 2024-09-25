@@ -2,3 +2,65 @@
 button.default-style {
     cursor: pointer;
 }
+
+/* Button style */
+button.default-style {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #007bff; /* Primary blue color */
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+button.default-style p {
+    margin: 0; /* Remove margins from paragraphs inside the button */
+    padding: 0; /* Remove padding */
+    color: inherit; /* Inherit the color from the button */
+}
+/* Hover effect */
+button.default-style:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Active button style */
+button.default-style:active {
+    background-color: #003f7f;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+}
+
+/* Disabled button */
+button.default-style.disabled,
+button.default-style:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Ripple Effect */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0);
+    animation: ripple-animation 0.3s linear;
+    pointer-events: none; /* Prevent ripple from interfering with clicks */
+    overflow: hidden;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+}

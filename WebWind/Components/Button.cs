@@ -16,6 +16,7 @@ public class Button : Component
                 action();
             }
         });
+        JS.Eval($"{Id}.addEventListener('click', (event) => createRipple(event));");
         CreateChild<Paragraph>(text);
         AddClassName("default-style");
     }
