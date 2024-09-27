@@ -18,7 +18,7 @@ public static class ViewCache
                 if (type.GetCustomAttributes(typeof(RouteAttribute), true).Length > 0)
                 {
                     string path = type.GetCustomAttribute<RouteAttribute>().Path;
-                    Console.WriteLine("ViewCache: {0} available at '{1}'", type, path);
+                    Log.Info($"ViewCache: {type} available at '{path}'");
                     PathToType.Add(path, type);
                 }
             }

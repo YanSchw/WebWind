@@ -11,6 +11,12 @@ namespace WebWind.Core
     {
         public void Host(int port)
         {
+            Log.Trace(" _ _ _       _    _ _ _  _         _ ");
+            Log.Trace("| | | | ___ | |_ | | | |<_>._ _  _| |");
+            Log.Trace("| | | |/ ._>| . \\| | | || || ' |/ . |");
+            Log.Trace("|__/_/ \\___.|___/|__/_/ |_||_|_|\\___|");
+            Log.Trace("                                     ");
+            
             Task listenTask = Listen(port);
             listenTask.GetAwaiter().GetResult();
         }
@@ -19,7 +25,7 @@ namespace WebWind.Core
         {
             TcpListener tcpListener = new TcpListener(IPAddress.Any, port);
             tcpListener.Start();
-            Console.WriteLine($"Server running on ws://localhost:{port} and http://localhost:{port}");
+            Log.Info($"Server running on ws://localhost:{port} and http://localhost:{port}");
 
             while (true)
             {
@@ -41,7 +47,7 @@ namespace WebWind.Core
                 await PerformWebSocketHandshakeAsync(networkStream, request);
                 WebSocket webSocket = WebSocket.CreateFromStream(networkStream, isServer: true, subProtocol: null, keepAliveInterval: TimeSpan.FromMinutes(2));
 
-                Console.WriteLine("WebSocket connection accepted.");
+                Log.Info("WebSocket connection accepted.");
                 await HandleWebSocket(webSocket);
             }
             else if (IsHttpRequest(request))
@@ -153,7 +159,7 @@ namespace WebWind.Core
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error serving HTTP request: {ex.Message}");
+                Log.Error($"Error serving HTTP request: {ex.Message}");
             }
             finally
             {
@@ -172,7 +178,7 @@ namespace WebWind.Core
                 if (receiveResult.MessageType == WebSocketMessageType.Text)
                 {
                     string receivedMessage = Encoding.UTF8.GetString(receiveBuffer, 0, receiveResult.Count);
-                    Console.WriteLine("Received message from client: " + receivedMessage);
+                    Log.Debug("Received message from client: " + receivedMessage);
 
                     if (receivedMessage.StartsWith("view"))
                     {
@@ -184,12 +190,12 @@ namespace WebWind.Core
                     }
                     else
                     {
-                        Console.WriteLine("Illegal Message");
+                        Log.Error("Illegal Message");
                     }
                 }
                 else if (receiveResult.MessageType == WebSocketMessageType.Close)
                 {
-                    Console.WriteLine("WebSocket connection closed.");
+                    Log.Info("WebSocket connection closed.");
                     await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
                 }
             }
