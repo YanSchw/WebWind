@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebWind", "WebWind\WebWind.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.csproj", "{ABDCED5C-29BD-4D84-98E0-A4F8E38B6E61}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLI", "CLI\CLI.csproj", "{DBDCED5C-29BD-4D84-98E0-A4F8E38B6E61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{ABDCED5C-29BD-4D84-98E0-A4F8E38B6E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABDCED5C-29BD-4D84-98E0-A4F8E38B6E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABDCED5C-29BD-4D84-98E0-A4F8E38B6E61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBDCED5C-29BD-4D84-98E0-A4F8E38B6E61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBDCED5C-29BD-4D84-98E0-A4F8E38B6E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBDCED5C-29BD-4D84-98E0-A4F8E38B6E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBDCED5C-29BD-4D84-98E0-A4F8E38B6E61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
