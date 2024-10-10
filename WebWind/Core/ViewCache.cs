@@ -37,13 +37,13 @@ public static class ViewCache
             ClientInterface clientInterface = new ClientInterface(webSocket);
             ClientInterface.s_LocalClientInterface.Value = clientInterface;
             Views[webSocket] = clientInterface;
-            SubmitCss();
+            SubmitCssAndJs();
             clientInterface.m_RootComponent = Activator.CreateInstance(PathToType[path]) as Component;
         });
         
     }
 
-    private static void SubmitCss()
+    private static void SubmitCssAndJs()
     {
         // Get all loaded assemblies
         Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -67,6 +67,17 @@ public static class ViewCache
                         ClientInterface.Current.JS.Eval($"{{const styleElement = document.createElement('style');" +
                                                         $"styleElement.textContent = `{cssContent}`;" +
                                                         $"document.head.appendChild(styleElement);}}");
+                    }
+                }
+                else if (resourceName.EndsWith(".js", StringComparison.OrdinalIgnoreCase) && !resourceName.EndsWith("index.js"))
+                {
+                    using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        string jsSource = reader.ReadToEnd();
+
+                        // Send the JS src to the frontend
+                        ClientInterface.Current.JS.Eval(jsSource);
                     }
                 }
             }
