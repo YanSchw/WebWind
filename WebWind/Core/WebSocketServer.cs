@@ -100,6 +100,26 @@ namespace WebWind.Core
             return Convert.ToBase64String(hashBytes);
         }
 
+        private string GetMimeTypeFromFileEnding(string ending)
+        {
+            switch (ending)
+            {
+                case "html": return "text/html; charset=UTF-8";
+                case "json": return "application/json; charset=UTF-8";
+                case "ico": return "image/x-icon";
+            }
+            return "text/html";
+        }
+        private bool IsBinaryFile(string ending)
+        {
+            switch (ending)
+            {
+                case "html": return false;
+                case "json": return false;
+                case "ico": return true;
+            }
+            return false;
+        }
         private async Task ServeHttpRequest(NetworkStream stream, string request)
         {
             try
@@ -127,23 +147,41 @@ namespace WebWind.Core
                 {
                     if (resourceStream != null)
                     {
-                        using (StreamReader reader = new StreamReader(resourceStream))
+                        string fileExtension = resourcePath.Split('.').Last().ToLower();
+                        string mimeType = GetMimeTypeFromFileEnding(fileExtension);
+                        byte[] contentBytes;
+
+                        // Check if the resource is a binary file (like an image) or text-based
+                        if (IsBinaryFile(fileExtension))
                         {
-                            string content = await reader.ReadToEndAsync();
-                            byte[] contentBytes = Encoding.UTF8.GetBytes(content);
-        
-                            // Build the HTTP response header
-                            string responseHeader = "HTTP/1.1 200 OK\r\n" +
-                                                    "Content-Type: text/html; charset=UTF-8\r\n" +
-                                                    $"Content-Length: {contentBytes.Length}\r\n" +
-                                                    "Connection: close\r\n\r\n";
-        
-                            byte[] headerBytes = Encoding.UTF8.GetBytes(responseHeader);
-        
-                            // Send the header and the content
-                            await stream.WriteAsync(headerBytes, 0, headerBytes.Length);
-                            await stream.WriteAsync(contentBytes, 0, contentBytes.Length);
+                            // Read binary data directly from the stream
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                await resourceStream.CopyToAsync(ms);
+                                contentBytes = ms.ToArray();
+                            }
                         }
+                        else
+                        {
+                            // Handle text-based content (HTML, CSS, JS, etc.)
+                            using (StreamReader reader = new StreamReader(resourceStream))
+                            {
+                                string content = await reader.ReadToEndAsync();
+                                contentBytes = Encoding.UTF8.GetBytes(content);
+                            }
+                        }
+
+                        // Build the HTTP response header
+                        string responseHeader = "HTTP/1.1 200 OK\r\n" +
+                                                $"Content-Type: {mimeType}\r\n" +
+                                                $"Content-Length: {contentBytes.Length}\r\n" +
+                                                "Connection: close\r\n\r\n";
+
+                        byte[] headerBytes = Encoding.UTF8.GetBytes(responseHeader);
+
+                        // Send the header and the content
+                        await stream.WriteAsync(headerBytes, 0, headerBytes.Length);
+                        await stream.WriteAsync(contentBytes, 0, contentBytes.Length);
                     }
                     else
                     {
