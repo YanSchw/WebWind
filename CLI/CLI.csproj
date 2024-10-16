@@ -5,7 +5,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<PublishSingleFile>true</PublishSingleFile>
+    <PublishSingleFile>true</PublishSingleFile>
+    <BaseOutputPath>../Build/CLI/Bin/</BaseOutputPath>
+    <BaseIntermediateOutputPath>../Build/CLI/Obj/</BaseIntermediateOutputPath>
   </PropertyGroup>
 
 </Project>
