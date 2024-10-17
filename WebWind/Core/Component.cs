@@ -21,6 +21,22 @@ public abstract class Component
     {
         IdNumber = ClientInterface.Current.NextComponentId();
         ClientInterface.Current.m_ComponentRegistry[IdNumber] = this;
+        
+        // Get the runtime type of the current object (the derived class)
+        Type derivedType = this.GetType();
+        
+        HtmlTagAttribute tagAttribute = (HtmlTagAttribute)Attribute.GetCustomAttribute(derivedType, typeof(HtmlTagAttribute));
+        if (tagAttribute != null)
+        {
+            if (derivedType.BaseType == typeof(Component))
+            {
+                JS.CreateDocumentElement(tagAttribute.Tag, Id);
+            }
+            else
+            {
+                Log.Error("The HtmlTag attribute is only allowed on direct children of Component.");
+            }
+        }
     }
 
     public virtual void DestructFrontEnd() { }
