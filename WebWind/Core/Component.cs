@@ -37,6 +37,18 @@ public abstract class Component
                 Log.Error("The HtmlTag attribute is only allowed on direct children of Component.");
             }
         }
+        HtmlTemplateAttribute templateAttribute = (HtmlTemplateAttribute)Attribute.GetCustomAttribute(derivedType, typeof(HtmlTemplateAttribute));
+        if (templateAttribute != null)
+        {
+            if (tagAttribute != null)
+            {
+                templateAttribute.Inject(this, tagAttribute);
+            }
+            else
+            {
+                Log.Error("The HtmlTemplate attribute is only if a HtmlTag is present.");
+            }
+        }
     }
 
     public virtual void DestructFrontEnd() { }
