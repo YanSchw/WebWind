@@ -112,13 +112,8 @@ namespace WebWind.Core
         }
         private bool IsBinaryFile(string ending)
         {
-            switch (ending)
-            {
-                case "html": return false;
-                case "json": return false;
-                case "ico": return true;
-            }
-            return false;
+            string[] binaryExtensions = { "jpg", "jpeg", "png", "gif", "ico", "pdf", "bmp", "tiff", "webp" };
+            return binaryExtensions.Contains(ending);
         }
         private async Task ServeHttpRequest(NetworkStream stream, string request)
         {
